@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodingDojo3.ViewModels
 {
-    class MainViewModel
+    class MainViewModel : BaseViewModel
     {
         private string newName;
 
