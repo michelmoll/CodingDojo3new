@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodingDojo4DataLib;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,21 +10,27 @@ namespace CodingDojo3.ViewModels
 {
     class MainViewModel : BaseViewModel
     {
-        private string newName;
+        private List<StockEntry> stock;
 
-        public string NewName
+        private ObservableCollection<StockEntryViewModel> items = new ObservableCollection<StockEntryViewModel>();
+
+        public ObservableCollection<StockEntryViewModel> Items
         {
-            get { return newName; }
-            set { newName = value; }
+            get {return Items;}
+            set
+            {
+                items = value;
+            }
         }
-        private ObservableCollection<String> softwareList;
-
-        public ObservableCollection<String> SoftwareList
+        public MainViewModel()
         {
-            get { return softwareList; }
-            set { softwareList = value; }
+            SampleManager manager = new SampleManager();
+            stock = manager.CurrentStock.OnStock;
+            foreach (var item in manager.CurrentStock.OnStock)
+            {
+                Items.Add(new StockEntryViewModel(item));  //filling view model data stucture
+            }
         }
-
 
     }
 }
