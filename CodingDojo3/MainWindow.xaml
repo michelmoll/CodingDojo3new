@@ -2,41 +2,40 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:CodingDojo3.ViewModels"
+        xmlns:Converters="clr-namespace:CodingDojo3.Converter"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <Converters:IntTobrushConverter x:Key="IntTobrushConverter" />
+    </Window.Resources>
     <Window.DataContext>
         <vm:MainViewModel></vm:MainViewModel>
     </Window.DataContext>
-    <Grid>
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="37*"/>
             <RowDefinition Height="239*"/>
             <RowDefinition Height="43*"/>
         </Grid.RowDefinitions>
 
- 
-            <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="120"
-                      ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedCurrency}"/>
-     
-       
-      
-            <Button x:Name="Edit" Content="Edit" Width="50" Margin="366,15,101,10" Grid.Row="2"/>
-            <Button x:Name="Delete" Content="Delete" Width="50" Margin="292,15,175,10" Grid.Row="2"/>
-            <Button x:Name="button" Content="Add" Width="50" Margin="441,15,26,10" Grid.Row="2"/>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" AutoGenerateColumns="False"
+        <DataGrid HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" AutoGenerateColumns="False"
                   ItemsSource="{Binding Items}"
                   >
-
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name"/>
-                <DataGridTextColumn Header="Name"/>
-                <DataGridTextColumn Header="Sales Price"/>
-                <DataGridTextColumn Header="Purchase Price"/>
-                <DataGridTextColumn Header="On Stock"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Group" Binding="{Binding Group}"/>
+                <DataGridTextColumn Header="Sales Price" Binding="{Binding SalesPrice}"/>
+                <DataGridTextColumn Header="PurchasePrice" Binding="{Binding PurchasePrice}"/>
+                <DataGridTemplateColumn Header="OnStock">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Ellipse Height="15" Width="15" Fill="{Binding OnStock,Converter={StaticResource IntTobrushConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Width="120"
+                      ItemsSource="{Binding Currencies}" SelectedItem="{Binding SelectedCurrency}"/>
 
-
-
-
-    </Grid>
+        </Grid>
 </Window>
